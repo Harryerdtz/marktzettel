@@ -5,6 +5,7 @@
   var state = loadState();
   var activeFilter = 'open';
   var alphabetical = false;
+  var searchTerm = '';
   var toastTimer;
 
   function uid() { return 'i' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
@@ -70,7 +71,7 @@
     var list = activeList();
     var ul = document.getElementById('itemList');
     var empty = document.getElementById('emptyState');
-    var rows = list.items.filter(function (item) { return activeFilter === 'all' || (activeFilter === 'open' && !item.done) || (activeFilter === 'done' && item.done); });
+    var rows = list.items.filter(function (item) { return (activeFilter === 'all' || (activeFilter === 'open' && !item.done) || (activeFilter === 'done' && item.done)) && item.name.toLocaleLowerCase('de').includes(searchTerm); });
     if (alphabetical) rows.sort(function (a, b) { return a.name.localeCompare(b.name, 'de'); });
     else rows.sort(function (a, b) { return Number(a.done) - Number(b.done) || (a.createdAt || 0) - (b.createdAt || 0); });
     ul.innerHTML = '';
@@ -88,6 +89,9 @@
     if (list.items.length && rows.length === 0) {
       empty.hidden = false; empty.querySelector('h2').textContent = activeFilter === 'done' ? 'Noch nichts erledigt' : 'Alles erledigt';
       empty.querySelector('p').textContent = activeFilter === 'done' ? 'Abgehakte Artikel erscheinen hier.' : 'Deine offenen Artikel sind erledigt. Gut gemacht!';
+    } else if (searchTerm) {
+      empty.querySelector('h2').textContent = 'Nichts gefunden';
+      empty.querySelector('p').textContent = 'Ändere den Suchbegriff oder leere die Suche.';
     } else if (!list.items.length) {
       empty.querySelector('h2').textContent = 'Deine Liste ist bereit';
       empty.querySelector('p').textContent = 'Füge oben deinen ersten Artikel hinzu. Dann kann\'s losgehen.';
@@ -185,6 +189,8 @@
     else showToast('Teilen wird von diesem Browser nicht unterstützt.');
   }
 
+  document.getElementById('itemSearch').addEventListener('input', function () { searchTerm = this.value.trim().toLocaleLowerCase('de'); document.getElementById('clearSearch').hidden = !this.value; renderItems(); });
+  document.getElementById('clearSearch').addEventListener('click', function () { var input = document.getElementById('itemSearch'); input.value = ''; searchTerm = ''; this.hidden = true; renderItems(); input.focus(); });
   document.getElementById('addForm').addEventListener('submit', function (event) { event.preventDefault(); var input = document.getElementById('itemInput'); if (addItem(input.value)) { input.value = ''; input.focus(); } });
   document.querySelectorAll('[data-quick]').forEach(function (button) { button.addEventListener('click', function () { var value = this.dataset.quick; if (addItem(value)) showToast(value + ' hinzugefügt.'); }); });
   document.querySelectorAll('.filter-tab').forEach(function (button) { button.addEventListener('click', function () { activeFilter = this.dataset.filter; document.querySelectorAll('.filter-tab').forEach(function (tab) { tab.classList.toggle('active', tab === button); }); renderItems(); }); });
