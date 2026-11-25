@@ -16,3 +16,6 @@
 
 .sort-button{display:inline-flex!important;flex-direction:row;align-items:center;justify-content:center;gap:4px;min-width:48px;white-space:nowrap}.sort-button span{line-height:1;vertical-align:0}
 @media(max-width:780px){.sort-button{display:inline-flex;min-width:48px;white-space:nowrap}}
+
+html,body,button,a,select,input,label,.row-action,.filter-tab{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+@media(max-width:780px){input:not([type=checkbox]),select,textarea,.modal-input{font-size:16px}}
