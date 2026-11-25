@@ -81,7 +81,7 @@
       li.innerHTML = '<label class="check-wrap"><input type="checkbox" aria-label="' + (item.done ? 'Erledigt: ' : 'Abhaken: ') + escapeHtml(item.name) + '" ' + (item.done ? 'checked' : '') + '><span class="check-mark" aria-hidden="true"></span></label>' +
         '<div class="item-main"><div class="item-name">' + escapeHtml(item.name) + '</div><div class="item-meta">' + (item.category && item.category !== 'Allgemein' ? '<span class="category-tag">' + escapeHtml(item.category) + '</span>' : '') + (item.quantity ? '<span class="quantity">· ' + escapeHtml(item.quantity) + '</span>' : '') + '</div></div>' +
         '<div class="item-actions"><button class="row-action staple-toggle" type="button" aria-label="' + (item.repeat ? 'Aus Standardartikeln entfernen' : 'Zu Standardartikeln hinzufügen') + '" title="' + (item.repeat ? 'Wird zu jeder neuen Liste hinzugefügt' : 'Immer auf neue Listen setzen') + '">' + (item.repeat ? '★' : '☆') + '</button><button class="row-action edit-item" type="button" aria-label="' + escapeHtml(item.name) + ' bearbeiten" title="Bearbeiten">⋯</button></div>';
-      li.querySelector('input').addEventListener('change', function () { item.done = this.checked; save(); render(); });
+      li.querySelector('input').addEventListener('change', function () { item.done = this.checked; save(); renderNav(); renderItems(); });
       li.querySelector('.staple-toggle').addEventListener('click', function () { toggleStaple(item); });
       li.querySelector('.edit-item').addEventListener('click', function () { openItemEditor(item); });
       ul.appendChild(li);
@@ -120,7 +120,7 @@
     var existing = activeList().items.filter(function (item) { return item.name.toLowerCase() === name.toLowerCase() && !item.done; })[0];
     if (existing) { showToast('Ist schon auf deiner Liste.'); return false; }
     var item = { id: uid(), name: name, quantity: quantity || '', category: category || guessCategory(name), done: false, repeat: false, createdAt: Date.now() };
-    activeList().items.push(item); save(); render(); return true;
+    activeList().items.push(item); save(); renderNav(); renderItems(); return true;
   }
   function toggleStaple(item) {
     item.repeat = !item.repeat;
@@ -196,7 +196,7 @@
   document.querySelectorAll('[data-quick]').forEach(function (button) { button.addEventListener('click', function () { var value = this.dataset.quick; if (addItem(value)) showToast(value + ' hinzugefügt.'); }); });
   document.querySelectorAll('.filter-tab').forEach(function (button) { button.addEventListener('click', function () { activeFilter = this.dataset.filter; document.querySelectorAll('.filter-tab').forEach(function (tab) { tab.classList.toggle('active', tab === button); }); renderItems(); }); });
   document.getElementById('sortButton').addEventListener('click', function () { alphabetical = !alphabetical; this.innerHTML = alphabetical ? 'Neu <span aria-hidden="true">⌄</span>' : 'A–Z <span aria-hidden="true">⌄</span>'; renderItems(); });
-  document.getElementById('clearDone').addEventListener('click', function () { var list = activeList(); list.items = list.items.filter(function (item) { return !item.done; }); save(); render(); showToast('Erledigte Artikel entfernt.'); });
+  document.getElementById('clearDone').addEventListener('click', function () { var list = activeList(); list.items = list.items.filter(function (item) { return !item.done; }); save(); renderNav(); renderItems(); showToast('Erledigte Artikel entfernt.'); });
   document.getElementById('newListSide').addEventListener('click', addNewList);
   document.getElementById('newListMobile').addEventListener('click', addNewList);
   document.getElementById('listPicker').addEventListener('change', function () { state.activeId = this.value; save(); render(); });
