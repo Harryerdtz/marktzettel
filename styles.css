@@ -14,5 +14,5 @@
 @media(max-width:780px){.add-form{gap:7px;padding-left:12px}.add-form input{font-size:16px}.add-form input::placeholder{font-size:13px;letter-spacing:-.2px}.add-button{min-width:84px;padding-inline:11px;font-size:13px}.staples-panel{margin-top:22px;padding-top:15px}.staples-copy{gap:10px}.staples-copy h2{font-size:13px}.staples-copy p{font-size:11px}.staple-summary li{min-height:44px;font-size:14px}.icon-button{display:grid;place-items:center}.icon-button.small{display:grid;place-items:center;padding:0}}
 @media(max-width:370px){.add-form{gap:5px;padding-left:9px}.add-form input{font-size:15px}.add-form input::placeholder{font-size:12px}.add-button{min-width:78px;padding-inline:8px;font-size:12px}.add-symbol{flex-basis:21px}}
 
-.sort-button{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:48px;white-space:nowrap}.sort-button span{line-height:1;vertical-align:0}
+.sort-button{display:inline-flex!important;flex-direction:row;align-items:center;justify-content:center;gap:4px;min-width:48px;white-space:nowrap}.sort-button span{line-height:1;vertical-align:0}
 @media(max-width:780px){.sort-button{display:inline-flex;min-width:48px;white-space:nowrap}}
