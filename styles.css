@@ -19,3 +19,5 @@
 
 html,body,button,a,select,input,label,.row-action,.filter-tab{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 @media(max-width:780px){input:not([type=checkbox]),select,textarea,.modal-input{font-size:16px}}
+[hidden]{display:none!important}
+@media(max-width:780px){.quick-categories{display:none}.list-heading .eyebrow,.list-heading .list-subtitle{display:none}.list-heading{margin-bottom:17px}.list-heading h1{font-size:30px}.staples-panel{padding:15px 0 0;margin-top:22px}.staples-icon,.staples-copy p{display:none}.staples-copy h2{font-size:14px}.staple-summary{margin-top:8px}.staple-summary li{min-height:42px}}

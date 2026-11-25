@@ -72,6 +72,8 @@
     var list = activeList();
     var ul = document.getElementById('itemList');
     var empty = document.getElementById('emptyState');
+    if (activeFilter === 'done' && !list.items.some(function (item) { return item.done; })) activeFilter = 'open';
+    document.querySelectorAll('.filter-tab').forEach(function (tab) { tab.classList.toggle('active', tab.dataset.filter === activeFilter); });
     var rows = list.items.filter(function (item) { return (activeFilter === 'all' || (activeFilter === 'open' && !item.done) || (activeFilter === 'done' && item.done)) && item.name.toLowerCase().includes(searchTerm); });
     if (alphabetical) rows.sort(function (a, b) { return a.name.localeCompare(b.name, 'de'); });
     else rows.sort(function (a, b) { return Number(a.done) - Number(b.done) || (a.createdAt || 0) - (b.createdAt || 0); });
@@ -99,6 +101,11 @@
     }
     var done = list.items.filter(function (item) { return item.done; }).length;
     var total = list.items.length;
+    document.querySelector('.items-toolbar').hidden = total === 0;
+    document.querySelector('.search-field').hidden = total === 0;
+    document.querySelector('[data-filter="all"]').hidden = done === 0;
+    document.querySelector('[data-filter="done"]').hidden = done === 0;
+    document.getElementById('sortButton').hidden = total < 2;
     var wrap = document.getElementById('progressWrap');
     wrap.hidden = total === 0;
     if (total) {
@@ -113,7 +120,8 @@
   }
   function renderStaples() {
     var summary = document.getElementById('stapleSummary');
-    summary.textContent = state.staples.length ? state.staples.map(function (item) { return item.name; }).join(' · ') : 'Noch keine Standardartikel hinzugefügt.';
+    summary.hidden = state.staples.length === 0;
+    summary.innerHTML = state.staples.map(function (item) { return '<li><span class="staple-bullet" aria-hidden="true"></span><span>' + escapeHtml(item.name) + '</span>' + (item.quantity ? '<span class="staple-quantity">' + escapeHtml(item.quantity) + '</span>' : '') + '</li>'; }).join('');
   }
   function addItem(name, quantity, category) {
     name = cleanName(name); if (!name) return false;

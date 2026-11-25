@@ -12,7 +12,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=8">
   <title>Marktzettel — Einkaufen, leicht gemacht</title>
 </head>
 <body>
@@ -62,10 +62,10 @@
           <button type="button" data-quick="Brot" class="quick-chip"><span>●</span> Brot</button>
         </div>
 
-        <label class="search-field" for="itemSearch"><span aria-hidden="true">⌕</span><input id="itemSearch" type="search" placeholder="Liste durchsuchen" autocomplete="off"><button id="clearSearch" type="button" aria-label="Suche leeren" hidden>×</button></label>
+        <label class="search-field" for="itemSearch" hidden><span aria-hidden="true">⌕</span><input id="itemSearch" type="search" placeholder="Liste durchsuchen" autocomplete="off"><button id="clearSearch" type="button" aria-label="Suche leeren" hidden>×</button></label>
 
         <section class="items-section" aria-label="Artikel auf der Liste">
-          <div class="items-toolbar">
+          <div class="items-toolbar" hidden>
             <div class="filter-tabs" role="group" aria-label="Artikel filtern">
               <button type="button" class="filter-tab active" data-filter="open">Offen <span id="openCount">0</span></button>
               <button type="button" class="filter-tab" data-filter="all">Alle</button>
@@ -89,7 +89,7 @@
         <section class="staples-panel">
           <div class="staples-copy"><span class="staples-icon" aria-hidden="true">↻</span><div><h2>Immer auf deiner Liste</h2><p>Diese Artikel kommen bei jeder neuen Liste dazu.</p></div></div>
           <button id="manageStaples" class="manage-button" type="button">Verwalten <span aria-hidden="true">›</span></button>
-          <ul id="stapleSummary" class="staple-summary" aria-label="Deine Standardartikel"></ul>
+          <ul id="stapleSummary" class="staple-summary" aria-label="Deine Standardartikel" hidden></ul>
         </section>
 
       </section>
