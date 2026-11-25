@@ -6,6 +6,7 @@
   var activeFilter = 'open';
   var alphabetical = false;
   var searchTerm = '';
+  var searchFrame = 0;
   var toastTimer;
 
   function uid() { return 'i' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
@@ -71,7 +72,7 @@
     var list = activeList();
     var ul = document.getElementById('itemList');
     var empty = document.getElementById('emptyState');
-    var rows = list.items.filter(function (item) { return (activeFilter === 'all' || (activeFilter === 'open' && !item.done) || (activeFilter === 'done' && item.done)) && item.name.toLocaleLowerCase('de').includes(searchTerm); });
+    var rows = list.items.filter(function (item) { return (activeFilter === 'all' || (activeFilter === 'open' && !item.done) || (activeFilter === 'done' && item.done)) && item.name.toLowerCase().includes(searchTerm); });
     if (alphabetical) rows.sort(function (a, b) { return a.name.localeCompare(b.name, 'de'); });
     else rows.sort(function (a, b) { return Number(a.done) - Number(b.done) || (a.createdAt || 0) - (b.createdAt || 0); });
     ul.innerHTML = '';
@@ -189,7 +190,7 @@
     else showToast('Teilen wird von diesem Browser nicht unterstützt.');
   }
 
-  document.getElementById('itemSearch').addEventListener('input', function () { searchTerm = this.value.trim().toLocaleLowerCase('de'); document.getElementById('clearSearch').hidden = !this.value; renderItems(); });
+  document.getElementById('itemSearch').addEventListener('input', function () { searchTerm = this.value.trim().toLowerCase(); document.getElementById('clearSearch').hidden = !this.value; if (!searchFrame) searchFrame = requestAnimationFrame(function () { searchFrame = 0; renderItems(); }); });
   document.getElementById('clearSearch').addEventListener('click', function () { var input = document.getElementById('itemSearch'); input.value = ''; searchTerm = ''; this.hidden = true; renderItems(); input.focus(); });
   document.getElementById('addForm').addEventListener('submit', function (event) { event.preventDefault(); var input = document.getElementById('itemInput'); if (addItem(input.value)) { input.value = ''; input.focus(); } });
   document.querySelectorAll('[data-quick]').forEach(function (button) { button.addEventListener('click', function () { var value = this.dataset.quick; if (addItem(value)) showToast(value + ' hinzugefügt.'); }); });
