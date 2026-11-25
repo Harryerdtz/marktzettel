@@ -40,7 +40,7 @@ jobs:
         with:
           enablement: true
       - name: Upload the existing site and Marktzettel
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: .
       - name: Deploy to GitHub Pages
